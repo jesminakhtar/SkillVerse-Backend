@@ -3,6 +3,7 @@ package com.skillverse.followservice.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,7 @@ public class FollowController {
 	@Autowired
 	private FollowService followService;
 	
+	
 	/**
 	 * API to follow a user.
 	 * @param follow -> Follow object containing followerId and followingId
@@ -36,6 +38,7 @@ public class FollowController {
 	public Follow followUser(@Valid @RequestBody Follow follow) {
 		return followService.followUser(follow);
 	}
+	
 	
 	/**
 	 * API to unfollow a user.
@@ -47,15 +50,18 @@ public class FollowController {
 		followService.unfollowUser(followerId, followingId);
 	}
 	
+	
 	/**
 	 * API to get list of users this user is following.
      * @param followerId -> ID of the follower
      * @return list of Follow objects
 	 */
 	@GetMapping("/following/{followerId}")
-	public List<Follow> getFollowing(@PathVariable String followerId) {
-		return followService.getFollowing(followerId);
+	public ResponseEntity<List<String>> getFollowing(@PathVariable String followerId) {
+		List<String> followingIds =  followService.getFollowing(followerId);
+		return ResponseEntity.ok(followingIds);
 	}
+	
 	
 	/**
 	 * API to get list of followers of a user.
@@ -63,7 +69,8 @@ public class FollowController {
      * @return list of Follow objects
 	 */
 	@GetMapping("/followers/{followingId}")
-	public List<Follow> getFollowers(@PathVariable String followingId) {
-		return followService.getFollowers(followingId);
+	public ResponseEntity<List<String>> getFollowers(@PathVariable String followingId) {
+		List<String> followerIds = followService.getFollowers(followingId);
+		return ResponseEntity.ok(followerIds);
 	}
 }

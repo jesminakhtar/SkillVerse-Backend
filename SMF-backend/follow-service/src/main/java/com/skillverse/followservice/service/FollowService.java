@@ -1,6 +1,7 @@
 package com.skillverse.followservice.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,8 +40,11 @@ public class FollowService {
      * @param followerId -> ID of the follower
      * @return list of Follow objects
      */
-	public List<Follow> getFollowing(String followerId) {
-		return followRepository.findByFollowerId(followerId);
+	public List<String> getFollowing(String followerId) {
+		List<Follow> follows =  followRepository.findByFollowerId(followerId);
+		return follows.stream()
+					.map(Follow::getFollowingId)
+					.collect(Collectors.toList());
 	}
 	
     /**
@@ -48,8 +52,11 @@ public class FollowService {
      * @param followingId -> ID of the user being followed
      * @return list of Follow objects
      */
-	public List<Follow> getFollowers(String followingId) {
-		return followRepository.findByFollowingId(followingId);
+	public List<String> getFollowers(String followingId) {
+		List<Follow> follows =  followRepository.findByFollowingId(followingId);
+		return follows.stream()
+					.map(Follow::getFollowerId)
+					.collect(Collectors.toList());
 	}
 	
 }
