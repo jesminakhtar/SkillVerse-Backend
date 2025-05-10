@@ -54,6 +54,14 @@ public class PostController {
 	}
 	
 	/**
+	 * Get all posts by a user.
+	 */
+	@PostMapping("/from-users")
+	public List<Post> getPostFromUsers(@RequestBody List<String> userIds) {
+		return postRepository.findByUserIdIn(userIds);
+	}
+	
+	/**
 	 * Update a post by ID.
 	 */
 	@PutMapping("/{id}")

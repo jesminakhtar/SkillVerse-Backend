@@ -14,4 +14,5 @@ import com.skillverse.postservice.model.Post;
 @Repository
 public interface PostRepository extends MongoRepository<Post, String> {
 	List<Post> findByUserId(String userId);
+	List<Post> findByUserIdIn(List<String> userIds);
 }
