@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 @CrossOrigin(origins = "*")
 public class UserController {
 
@@ -29,14 +29,19 @@ public class UserController {
        return userService.getAllUsers();
    }
 
-   @GetMapping("/{id}")
-   public Optional<User> getUserById(@PathVariable String id) {
-       return userService.getUserById(id);
+   @GetMapping("/{username}")
+   public Optional<User> getUserByUserName(@PathVariable String username) {
+       return userService.getUserByUsername(username);
+   }
+   
+   @GetMapping("/email/{email}")
+   public Optional<User> getUserByEmail(@PathVariable String email) {
+       return userService.getUserByEmail(email);
    }
 
-   @PutMapping("/{id}")
-   public User updateUser(@PathVariable String id, @Valid @RequestBody User user) {
-       return userService.updateUser(id, user);
+   @PutMapping("/{username}")
+   public User updateUser(@PathVariable String username, @Valid @RequestBody User user) {
+       return userService.updateUser(username, user);
    }
 
    @DeleteMapping("/{id}")

@@ -28,21 +28,26 @@ public class UserService {
    }
 
    public Optional<User> getUserByUsername(String username) {
-       return userRepository.findByUsername(username);
+	   return userRepository.findByUsername(username);
    }
+   
+   public Optional<User> getUserByEmail(String email) {
+	   return userRepository.findByEmail(email);
+	}
 
    public void deleteUser(String id) {
        userRepository.deleteById(id);
    }
 
-   public User updateUser(String id, User updatedUser) {
-       return userRepository.findById(id).map(user -> {
-           user.setUsername(updatedUser.getUsername());
+   public User updateUser(String username, User updatedUser) {
+       return userRepository.findByUsername(username).map(user -> {
+//           user.setUsername(updatedUser.getUsername());
            user.setEmail(updatedUser.getEmail());
            user.setPassword(updatedUser.getPassword());
            user.setBio(updatedUser.getBio());
            user.setProfilePictureUrl(updatedUser.getProfilePictureUrl());
            return userRepository.save(user);
-       }).orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+       }).orElseThrow(() -> new RuntimeException("User not found with username: " + username));
    }
+
 }
